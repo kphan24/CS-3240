@@ -37,11 +37,10 @@ int getDigits()
     //get user input for the number of digits
     cout << "Enter the number of n factoral digits you wish to calculate(1-25):  ";
     cin >> perms;
-    while(perms < 1 || perms > SIZE) //error check
+    if(perms < 1 || perms > SIZE) //error check
     {
-        cout << "Try again.  Enter an integer 1 to 25";
+        cout << "Try again.  Enter an integer 1 to 25" << endl;
     }
-    cout << endl;
 
     return perms;
 }
