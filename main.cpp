@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int johnsonTrotter(int input, int *list);
+void johnsonTrotter(int input, int *list);
 void populateArray(int *list, int perms);
 void printList(int *list, int size);
 int getDigits();
@@ -27,6 +27,8 @@ int main()
     populateArray(list, perms);
     //run the Johnson-Trotter algorithm to print out every permutation
     johnsonTrotter(perms, list);
+    
+    return 0;
 }
 
 int getDigits()
@@ -35,7 +37,7 @@ int getDigits()
     //get user input for the number of digits
     cout << "Enter the number of n factoral digits you wish to calculate(1-25):  ";
     cin >> perms;
-    while(perms < 1 && perms > SIZE) //error check
+    while(perms < 1 || perms > SIZE) //error check
     {
         cout << "Try again.  Enter an integer 1 to 25";
     }
@@ -83,7 +85,7 @@ void populateArray(int *list, int perms)
 /   permutations of a passed number of digits.
 */
 
-int johnsonTrotter(int perms, int *list)
+void johnsonTrotter(int perms, int *list)
 {
 
     //find total number of permutations using n factoral
@@ -139,6 +141,8 @@ int johnsonTrotter(int perms, int *list)
         }
 
     }
+    
+    return;
 }
 
 /*  Test Run 1
