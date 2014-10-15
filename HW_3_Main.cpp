@@ -53,6 +53,10 @@ bool loadFile(Volunteer list[])
 		list[i].setFirst(first);
 		list[i].setSecond(second);
 		list[i].setThird(third);
+
+		cout << list[i].getName() << " "
+		<< list[i].getFirst() <<" "<< list[i].getSecond() <<
+		" "<< list[i].getThird() << endl;
 	}
 
 	inputFile.close();
@@ -114,6 +118,7 @@ void findBest(Volunteer list[])
             list[1] = temp;
             ++i;
         }
+        //cout << "current score = " << score;
     }
     return;
 }
@@ -123,14 +128,16 @@ int calcPoints(Volunteer list[], int pScore)
 	int i;
 	int month;
 	int score = 0;
-	bool months[12];
+	bool months[12] = {true, true, true, true, true,
+                       true, true, true, true, true,
+                       true, true};
 	for(i = 0; i < SIZE; ++i)
 	{
 		month = list[i].getFirst(); //check first choice availibility
 		if(months[month-1])
 		{
 			score += 3;
-			list[month-1].setAssigned(month);
+			list[i].setAssigned(month);
 			months[month-1] = false;
 
 		}
@@ -140,7 +147,7 @@ int calcPoints(Volunteer list[], int pScore)
 			if(months[month-1])			  //if first not available
 			{
 				score += 2;
-				list[month-1].setAssigned(month);
+				list[i].setAssigned(month);
 				months[month-1] = false;
 			}
 
@@ -150,11 +157,11 @@ int calcPoints(Volunteer list[], int pScore)
 				if(months[month-1])			//if first and second not available
 				{
 					score += 1;
-					list[month-1].setAssigned(month);
+					list[i].setAssigned(month);
 					months[month-1] = false;
 				}
 				else
-                    list[month-1].setAssigned(0);
+                    list[i].setAssigned(0);
 			}
 		}
 	}
@@ -163,6 +170,8 @@ int calcPoints(Volunteer list[], int pScore)
         printList(list, score);
         return score;
     }
+    else
+        return pScore;
 }
 
 void printList(Volunteer list[], int score)
@@ -171,8 +180,11 @@ void printList(Volunteer list[], int score)
     cout << "SCORE: " << score << "\n\n";
     for(i = 0; i < SIZE; ++i)
     {
-        cout << setw(20) << list[i].getName() << " " << list[i].getAssigned()
-        << endl;
+        cout << setw(20) << list[i].getName() << " ";
+        if(list[i].getAssigned() == 0)
+            cout << "NONE ASSIGNED" << endl;
+        else
+            cout << list[i].getAssigned() << endl;
     }
 
     cout << endl;
