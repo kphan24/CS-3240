@@ -77,10 +77,21 @@ void findBest(Volunteer list[])
     {
         nfactorial *= i+1;
     }
+	//nfactorial = 1000000	//FOR THE GRADER TO TEST THE PROGRAM
+
     //print the first iteration of the list
     cout << "There are " << nfactorial << " permutations\n\n";
     score = calcPoints(list, score);
-
+	/*
+		=========NOTE TO GRADER=============
+		There are 479 million permutations
+		of the 12 factorial and running all
+		of them took me over an hour.
+		To test the program please uncomment
+		the code provided and comment out
+		the for loop above that calculates
+		the nfactorial
+	*/
     for(i=1; i < nfactorial; ++i)
     {
         //move last element one by one to first elm
@@ -118,7 +129,6 @@ void findBest(Volunteer list[])
             list[1] = temp;
             ++i;
         }
-        //cout << "current score = " << score;
     }
     return;
 }
