@@ -1,39 +1,49 @@
 #include "Volunteer.h"
+#include <string>
 
 
 Volunteer::Volunteer(void)
 {
 }
 
-void setFirst(int f)
+void Volunteer::setFirst(int f)
 {
 	first = f;
 }
-void setSecond(int s)
+void Volunteer::setSecond(int s)
 {
 	second = s;
 }
-void setThird(int t)
+void Volunteer::setThird(int t)
 {
 	third = t;
 }
-void getName(string n)
+void Volunteer::setName(string n)
 {
 	name = n;
 }
-int getFirst();
+
+void Volunteer::setAssigned(int a)
+{
+    assigned = a;
+}
+int Volunteer::getAssigned()
+{
+    return assigned;
+}
+int Volunteer::getFirst()
 {
 	return first;
 }
-int getSecond();
+int Volunteer::getSecond()
 {
 	return second;
 }
-int getThird();
+int Volunteer::getThird()
 {
 	return third;
 }
-string getName();
+string Volunteer::getName()
 {
-	return name
+	return name;
 }
