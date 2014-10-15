@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Volunteer_h
+#define Volunteer_h
 #include <string>
 using namespace std;
 
@@ -9,15 +10,19 @@ private:
 	int second;  //second preferred month
 	int third;  //third preferred month
 	string name;  //person's name
+	int assigned; //assigned month
 public:
 	Volunteer(void);
-	void setFirst(int first);
-	void setSecond(int second);
-	void setThird(int third);
-	void setName(string Name);
+	void setFirst(int f);
+	void setSecond(int s);
+	void setThird(int t);
+	void setName(string n);
+	void setAssigned(int a);
+	int getAssigned();
 	int getFirst();
 	int getSecond();
 	int getThird();
 	string getName();
 };
 
+#endif
