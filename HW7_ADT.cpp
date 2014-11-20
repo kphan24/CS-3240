@@ -31,7 +31,7 @@ int MatrixStructure::getSize()
 void getCol(NODE *row, ofstream &stream)
 {
     COLUMN *col;
-    if(row->col)
+    if(row->col)  //col != NULL
         col = row->col;
     else
         return 0;
