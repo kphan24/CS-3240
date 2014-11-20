@@ -5,14 +5,14 @@
 #include <string>
 using namespace std;
 
-struct COLUMN
-{
+struct COLUMN  //columns are stored within the rows as another linked list
+{  	
     int columnNum;
     int data;
     COLUMN *previous;
     COLUMN *next;
 };
-struct NODE
+struct NODE  //NODE is actually a node in a linked list that represents a row
 {
     int rowNum;
     NODE *previous;
@@ -31,8 +31,8 @@ class MatrixStructure
         void readMatrix(int row, int value, int column, NODE *current);
     private:
         int width;
-        int depth;
-		int size;
+        int depth; //need get width and get depth functions
+	int size;
         NODE *firstRow;
 };
 
