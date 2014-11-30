@@ -1,10 +1,19 @@
-#include "Heintz_binTree.h"
+/*
+    Patrick Heintz, Khoa Phan
+    HW8 Keywords From Text
+    CODE BLOCKS
+    WIN 7 64 bit
+*/
+
+#include "HW8_BinTree_GR9.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 
-
+//  each node in the binary tree contains a queue
+//  that stores the number of times a unique word occurs
+//  as well as the line number it occurs on
 typedef struct lineList
 {
     int lineNum;
@@ -14,6 +23,7 @@ typedef struct lineList
 typedef struct nodeTag{
    char data[80];
    LIST *lines;
+   int numWords;
    struct nodeTag *left;
    struct nodeTag *right;
 } NODE;
@@ -32,21 +42,24 @@ void destroyList(LIST *myList)
         free(current);
         current = next;
     }
+    return;
 }
 
 /******************************************
     Free memory from binary tree using
     recursion
 */
-void destructTree(NODE *root)
+void destructTree(NODE *root, int *uniqueWords)
 {
     if(root)
     {
-        destructTree((root)->left);
-        destructTree((root)->right);
+        destructTree((root)->left, uniqueWords);
+        destructTree((root)->right, uniqueWords);
         destroyList(root->lines);
+        ++*uniqueWords;
         free(root);
     }
+    return;
 }
 
 /****************************************************************
@@ -71,26 +84,32 @@ void treeToFile(NODE *root, FILE *fp)
     Recursive insert for BST and queue attached
     to the BST nodes
 */
-void insert(NODE **root, char *data, int line)
+void insert(NODE **root, char *data, int line, int *grThree)
 {
     LIST *mover;
     if(!(*root)) //if no root exists
     {
         if(!(*root = (NODE *) malloc (sizeof(NODE))))
-            printf( "Fatal malloc error!\n" ), exit(1);
-        strcpy((*root)->data, data);
+            printf( "Fatal malloc error!\n" ), exit(1); //memory check
+        strcpy((*root)->data, data);  //if no list, allocate data to the root
         (*root)->left  = (*root)->right = NULL;
-        (*root)->lines = addToList();
+        (*root)->lines = addToList(); //allocates memory to be pointed to
         mover = (*root)->lines;
         mover->lineNum = line;
+        if(strlen(data)>3)
+            ++*grThree;  //when inserting node if word is greater than 3 chars increment
         return;
     }
 
-    if (strcmp(data, (*root)->data) > 0)
-        return insert(&(*root)->right, data, line);
+    if (strcmp(data, (*root)->data) > 0) //compare and allocate accordingly using recursion
+    {
+        insert(&(*root)->right, data, line, grThree);
+    }
     else if (strcmp(data, (*root)->data) < 0)
-        return insert(&(*root)->left, data, line);
-    else
+    {
+        insert(&(*root)->left, data, line, grThree);
+    }
+    else //node already exists, put in queue
     {
         mover = (*root)->lines;
         if(mover)
@@ -101,6 +120,7 @@ void insert(NODE **root, char *data, int line)
         {
             mover->next = addToList();  //allocate memory for new node
             mover->next->lineNum = line; //set data
+            (*root)->numWords++;
         }
         else // if the queue is empty, then lines will return NULL and you
                //are inserting the first element
@@ -108,8 +128,10 @@ void insert(NODE **root, char *data, int line)
             mover = addToList();
             mover->lineNum = line;
             (*root)->lines = mover;
+            (*root)->numWords = 1;
         }
     }
+	return;
 }
 
 /******************************************
@@ -148,7 +170,7 @@ void printList(LIST *myList, FILE *fp)
     Writes a string array to file using
     a number of lines
 */
-void writeArray(char program[][80], FILE *fp, int lineNum)
+void writeArray(char program[][300], FILE *fp, int lineNum)
 {
     int line = 1;
     int i;
@@ -156,7 +178,7 @@ void writeArray(char program[][80], FILE *fp, int lineNum)
 
     for(i=0; i<lineNum; ++i)
     {
-        fprintf(fp, "%2d :\t%s", line, program[i]);
+        fprintf(fp, "%2d :\t%s", line, program[i]); //print listing
         ++line;
     }
 }
